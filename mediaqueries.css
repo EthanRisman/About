@@ -1,18 +1,4 @@
 @media screen and (max-width: 1400px) {
-  #profile {
-    height: 83vh;
-    margin-bottom: 6rem;
-  }
-  .about-containers {
-    flex-wrap: wrap;
-  }
-  #contact,
-  #projects {
-    height: fit-content;
-  }
-}
-
-@media screen and (max-width: 1200px) {
   #desktop-nav {
     display: none;
   }
@@ -45,6 +31,25 @@
   .about-containers {
     margin-top: 0;
   }
+  .pdf-container {
+    min-width: 440px;
+    height: auto;
+  }
+  #profile {
+    height: 83vh;
+    margin-bottom: 6rem;
+  }
+  .about-containers {
+    flex-wrap: wrap;
+  }
+  #contact,
+  #projects {
+    height: fit-content;
+  }
+  .pdf-container {
+    max-width: 80%;
+    height: 450px;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -58,6 +63,8 @@
   }
   article {
     font-size: 1rem;
+    flex-direction: row;
+    justify-content: flex-start;
   }
   footer nav {
     height: fit-content;
@@ -99,5 +106,22 @@
   }
   .text-container {
     text-align: justify;
+  }
+  .pdf-container {
+    min-width: 300px;
+    height: auto;
+  }
+  .project-title {
+    margin: 1rem;
+    font-size: 1.1rem;
+  }
+  #experience .article-container:nth-of-type(1) {
+    margin-top: 3rem;
+    height: auto;
+    max-height: 400px;
+    overflow-y: hidden;
+  }
+  #projects .about-containers .details-container:last-child {
+    display: none;
   }
 }
