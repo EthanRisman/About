@@ -482,3 +482,73 @@ footer {
 footer p {
   text-align: center;
 }
+
+/* SUB-PAGE SECTION */
+
+.sub-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers everything horizontally */
+  text-align: center;
+  gap: 0.5rem; /* Ensures tight spacing between elements */
+  padding: 1rem;
+}
+
+.large-text {
+  font-size: 2rem; /* Large text size */
+  font-weight: bold;
+  color: rgb(85, 85, 85); /* RGB color as specified */
+  margin-top: 1rem; /* 1 unit space above */
+  margin-bottom: 0.5rem; /* 0.5 unit space below */
+}
+
+.medium-text {
+  font-size: 1.5rem; /* Medium text size */
+  font-weight: bold;
+  color: rgb(85, 85, 85); /* RGB color as specified */
+  margin-top: 0.5rem; /* 0.5 unit space above */
+  margin-bottom: 0.5rem; /* 0.5 unit space below */
+}
+
+.picture-and-caption {
+  margin-top: 1rem; /* 1 unit space above */
+  margin-bottom: 1rem; /* 1 unit space below */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.picture-attributes {
+  display: block;
+  margin: 0 auto; /* Centers the image */
+}
+
+.picture-attributes img {
+  width: 641px; /* Image fills the width of its container */
+  height: 311px;
+}
+
+.photo-caption {
+  max-width: 641px; /* Matches the width of the image */
+  font-size: 1rem;
+  color: rgb(0, 0, 0) !important; /* RGB color as specified */
+  margin-top: 0.5rem; /* Ensures close spacing to image */
+  font-weight: normal; /* Not bolded by default */
+  padding: 0 1rem;
+}
+
+@media (max-width: 768px) {
+  .large-text {
+    font-size: 1.5rem;
+  }
+
+  .medium-text {
+    font-size: 1.2rem;
+  }
+
+  .picture-attributes,
+  .photo-caption {
+    width: 90%; /* Scales down the width on smaller screens */
+    max-width: none; /* Allows it to adapt without fixed max */
+  }
+}
