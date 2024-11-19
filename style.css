@@ -555,6 +555,15 @@ footer p {
   padding: 0 1rem;
 }
 
+.photo-caption-horizontal {
+  max-height: 545px; /* Matches the width of the image */
+  font-size: 1rem;
+  color: rgb(0, 0, 0) !important; /* RGB color as specified */
+  margin-top: 0.5rem; /* Ensures close spacing to image */
+  font-weight: normal; /* Not bolded by default */
+  padding: 0 1rem;
+}
+
 @media (max-width: 768px) {
   .large-text {
     font-size: 1.5rem;
