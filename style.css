@@ -523,9 +523,19 @@ footer p {
   margin: 0 auto; /* Centers the image */
 }
 
-.picture-attributes img {
+.SCA-photo img {
   width: 641px; /* Image fills the width of its container */
   height: 311px;
+}
+
+.SRA-photo img {
+  width: 704px; /* Image fills the width of its container */
+  height: 1154px;
+}
+
+.xnr8-photo img {
+  width: 1240px; /* Image fills the width of its container */
+  height: 1090px;
 }
 
 .photo-caption {
