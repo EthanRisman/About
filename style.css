@@ -518,6 +518,14 @@ footer p {
   align-items: center;
 }
 
+.picture-and-caption-horizontal {
+  margin-top: 1rem; /* 1 unit space above */
+  margin-bottom: 1rem; /* 1 unit space below */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .picture-attributes {
   display: block;
   margin: 0 auto; /* Centers the image */
