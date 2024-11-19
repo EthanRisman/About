@@ -529,13 +529,13 @@ footer p {
 }
 
 .SRA-photo img {
-  width: 704px; /* Image fills the width of its container */
-  height: 1154px;
+  width: 528px; /* Image fills the width of its container */
+  height: 865px;
 }
 
 .xnr8-photo img {
-  width: 1240px; /* Image fills the width of its container */
-  height: 1090px;
+  width: 620px; /* Image fills the width of its container */
+  height: 545px;
 }
 
 .photo-caption {
