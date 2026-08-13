@@ -1,0 +1,75 @@
+/* SONG PAGE
+   Page-specific styles. Loaded after style.css and mediaqueries.css, so this
+   file wins wherever it overlaps. Keep it scoped to #song. */
+
+#song {
+  height: fit-content;
+  padding-bottom: 4rem;
+}
+
+/* PLAYER */
+
+.song-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.track {
+  width: min(100%, 40rem);
+  box-sizing: border-box;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 2rem;
+  border: rgb(163, 163, 163) 0.1rem solid;
+  text-align: center;
+}
+
+.track-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.track-meta {
+  color: rgb(85, 85, 85);
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  margin-bottom: 1.25rem;
+}
+
+.track-player {
+  width: 100%;
+}
+
+.track-fallback {
+  color: rgb(85, 85, 85);
+  font-style: italic;
+}
+
+/* QR CODE */
+
+.qr-container {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.qr-container .experience-sub-title {
+  margin-bottom: 1.5rem;
+}
+
+.qr-code {
+  width: min(100%, 15rem);
+  height: auto;
+  padding: 1rem;
+  box-sizing: border-box;
+  background: white;
+  border-radius: 1rem;
+  border: rgb(163, 163, 163) 0.1rem solid;
+}
+
+.qr-caption {
+  margin-top: 1rem;
+  font-size: clamp(0.75rem, 2vw, 1rem);
+  word-break: break-all;
+}

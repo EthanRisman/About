@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Song | Ethan Risman</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../mediaqueries.css" />
+    <link rel="stylesheet" href="./song.css" />
+  </head>
+  <body>
+    <nav id="desktop-nav">
+      <div class="logo"><a href="../">Ethan Risman</a></div>
+      <div>
+        <ul class="nav-links">
+          <li><a href="../#about">About</a></li>
+          <li><a href="../#experience">Experience</a></li>
+          <li><a href="../#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    <nav id="hamburger-nav">
+      <div class="logo"><a href="../">Ethan Risman</a></div>
+      <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="menu-links">
+          <li><a href="../#about" onclick="toggleMenu()">About</a></li>
+          <li><a href="../#experience" onclick="toggleMenu()">Experience</a></li>
+          <li><a href="../#contact" onclick="toggleMenu()">Contact</a></li>
+        </div>
+      </div>
+    </nav>
+
+    <section id="song">
+      <p class="section__text__p1">Have a Listen</p>
+      <h1 class="title">Song</h1>
+
+      <div class="song-container">
+        <!--
+          ============================================================
+          EMBED AN MP3 HERE
+          ------------------------------------------------------------
+          1. Drop the file into  /assets/  (e.g. assets/song.mp3)
+          2. Point the <source> below at it.
+          3. Update the track title / subtitle text above the player.
+
+          To host more than one track, copy the whole
+          <div class="track"> ... </div> block.
+          ============================================================
+        -->
+        <div class="track">
+          <h3 class="track-title">Untitled Track</h3>
+          <p class="track-meta">Ethan Risman</p>
+
+          <audio class="track-player" controls preload="metadata">
+            <source src="../assets/song.mp3" type="audio/mpeg" />
+            Your browser does not support the audio element.
+            <a href="../assets/song.mp3">Download the MP3</a> instead.
+          </audio>
+
+          <p class="track-fallback" hidden>
+            No audio file found yet &mdash; check back soon.
+          </p>
+        </div>
+      </div>
+
+      <div class="qr-container">
+        <h2 class="experience-sub-title">Share This Page</h2>
+        <img
+          src="../assets/song-qr.svg"
+          alt="QR code linking to https://ethanrisman.github.io/About/song/"
+          class="qr-code"
+        />
+        <p class="qr-caption">
+          <a href="https://ethanrisman.github.io/About/song/"
+            >ethanrisman.github.io/About/song/</a
+          >
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <nav>
+        <div class="nav-links-container">
+          <ul class="nav-links">
+            <li><a href="../#about">About</a></li>
+            <li><a href="../#experience">Experience</a></li>
+            <li><a href="../#contact">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+      <p>Copyright &#169; 2023 Ethan Risman. All Rights Reserved.</p>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script>
+      // If the MP3 hasn't been uploaded yet, hide the dead player and say so.
+      // Note: with <source> children, a failed load fires "error" on the
+      // <source>, not on the <audio> element -- so listen on both.
+      document.querySelectorAll(".track").forEach((track) => {
+        const player = track.querySelector(".track-player");
+        const fallback = track.querySelector(".track-fallback");
+        const showFallback = () => {
+          player.hidden = true;
+          fallback.hidden = false;
+        };
+        player.addEventListener("error", showFallback);
+        track
+          .querySelectorAll(".track-player source")
+          .forEach((src) => src.addEventListener("error", showFallback));
+      });
+    </script>
+  </body>
+</html>
