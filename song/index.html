@@ -40,6 +40,42 @@
           </p>
         </div>
       </div>
+
+      <!--
+        ============================================================
+        PHOTO CAROUSEL
+        ------------------------------------------------------------
+        Slides are plain <img> tags so they still show without JS.
+        To change the photos, drop files in /assets/photos/ and edit
+        the list below -- the script picks up whatever is here.
+        Order is chronological.
+        ============================================================
+      -->
+      <div
+        class="carousel"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="Photos"
+        tabindex="0"
+      >
+        <div class="carousel-viewport">
+          <div class="carousel-track">
+            <img class="slide" src="../assets/photos/first.jpg" alt="" draggable="false" decoding="async" />
+            <img class="slide" src="../assets/photos/tsa.jpg" alt="" draggable="false" decoding="async" />
+            <img class="slide" src="../assets/photos/yankee.jpg" alt="" draggable="false" decoding="async" />
+            <img class="slide" src="../assets/photos/freddie.jpg" alt="" draggable="false" decoding="async" />
+            <img class="slide" src="../assets/photos/concert.jpg" alt="" draggable="false" decoding="async" />
+            <img class="slide" src="../assets/photos/horse.jpg" alt="" draggable="false" decoding="async" />
+            <img class="slide" src="../assets/photos/plaza.jpg" alt="" draggable="false" decoding="async" />
+            <img class="slide" src="../assets/photos/spainwine.jpg" alt="" draggable="false" decoding="async" />
+            <img class="slide" src="../assets/photos/maine.jpg" alt="" draggable="false" decoding="async" />
+            <img class="slide" src="../assets/photos/lobsta.jpg" alt="" draggable="false" decoding="async" />
+            <img class="slide" src="../assets/photos/fixedit.jpg" alt="" draggable="false" decoding="async" />
+            <img class="slide" src="../assets/photos/proposalphoto.jpg" alt="" draggable="false" decoding="async" />
+          </div>
+        </div>
+        <div class="carousel-dots"></div>
+      </div>
     </section>
 
     <script>
@@ -136,6 +172,128 @@
           fall.appendChild(sway);
           layer.appendChild(fall);
         }
+      })();
+    </script>
+
+    <script>
+      // ---- Photo carousel --------------------------------------------------
+      // Advances every 4s. Any manual interaction (swipe, drag, arrow key,
+      // dot) pauses the rotation for 30s, then it resumes on its own.
+      (function () {
+        const INTERVAL = 4000;
+        const PAUSE = 30000;
+        const SWIPE_RATIO = 0.12; // fraction of width that counts as a swipe
+        const SWIPE_MIN = 40; // ...but never less than this many px
+
+        const carousel = document.querySelector(".carousel");
+        if (!carousel) return;
+        const track = carousel.querySelector(".carousel-track");
+        const dotsBox = carousel.querySelector(".carousel-dots");
+        const slides = Array.from(track.children);
+        const count = slides.length;
+        if (count < 2) return;
+
+        const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+        let index = 0;
+        let timer = null;
+        let resumeTimer = null;
+
+        // --- dots ---
+        const dots = slides.map((_, i) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "dot";
+          b.setAttribute("aria-label", "Photo " + (i + 1) + " of " + count);
+          b.addEventListener("click", () => {
+            show(i);
+            hold();
+          });
+          dotsBox.appendChild(b);
+          return b;
+        });
+
+        function show(i) {
+          index = (i + count) % count;
+          track.style.transform = "translateX(" + -index * 100 + "%)";
+          dots.forEach((d, n) => d.classList.toggle("is-active", n === index));
+        }
+
+        // --- timing ---
+        function play() {
+          if (calm.matches) return; // no auto-advance if motion is unwelcome
+          stop();
+          timer = setInterval(() => show(index + 1), INTERVAL);
+        }
+        function stop() {
+          clearInterval(timer);
+          timer = null;
+        }
+        // Pause after a manual interaction, then pick the rotation back up.
+        function hold() {
+          stop();
+          clearTimeout(resumeTimer);
+          // Clear the handle as it fires: the visibilitychange guard below
+          // treats a non-null resumeTimer as "a hold is still pending".
+          resumeTimer = setTimeout(() => {
+            resumeTimer = null;
+            play();
+          }, PAUSE);
+        }
+
+        // --- swipe / drag (pointer events cover touch, mouse and pen) ---
+        let startX = 0;
+        let dx = 0;
+        let dragging = false;
+
+        carousel.addEventListener("pointerdown", (e) => {
+          if (e.button !== 0 && e.pointerType === "mouse") return;
+          dragging = true;
+          startX = e.clientX;
+          dx = 0;
+          stop();
+          track.classList.add("is-dragging");
+          carousel.setPointerCapture(e.pointerId);
+        });
+
+        carousel.addEventListener("pointermove", (e) => {
+          if (!dragging) return;
+          dx = e.clientX - startX;
+          track.style.transform =
+            "translateX(calc(" + -index * 100 + "% + " + dx + "px))";
+        });
+
+        function endDrag() {
+          if (!dragging) return;
+          dragging = false;
+          track.classList.remove("is-dragging");
+          const threshold = Math.max(SWIPE_MIN, carousel.clientWidth * SWIPE_RATIO);
+          if (dx <= -threshold) show(index + 1);
+          else if (dx >= threshold) show(index - 1);
+          else show(index); // snap back
+          hold();
+        }
+
+        carousel.addEventListener("pointerup", endDrag);
+        carousel.addEventListener("pointercancel", endDrag);
+
+        // --- keyboard ---
+        carousel.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowLeft") show(index - 1);
+          else if (e.key === "ArrowRight") show(index + 1);
+          else return;
+          e.preventDefault();
+          hold();
+        });
+
+        // Don't animate to a stale slide while the tab is in the background.
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) stop();
+          else if (!resumeTimer) play();
+        });
+
+        show(0);
+        play();
       })();
     </script>
   </body>

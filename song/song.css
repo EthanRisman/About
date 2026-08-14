@@ -120,3 +120,71 @@ section {
   color: rgb(85, 85, 85);
   font-style: italic;
 }
+
+/* PHOTO CAROUSEL */
+
+.carousel {
+  width: min(100%, 40rem);
+  margin: 2rem auto 0;
+  background: white;
+  border-radius: 2rem;
+  border: rgb(163, 163, 163) 0.1rem solid;
+  overflow: hidden;
+  /* Let vertical swipes scroll the page; horizontal ones drive the carousel. */
+  touch-action: pan-y;
+}
+
+.carousel:focus-visible {
+  outline: rgb(53, 53, 53) 2px solid;
+  outline-offset: 3px;
+}
+
+.carousel-viewport {
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  height: min(70vh, 520px);
+  transition: transform 500ms ease;
+  will-change: transform;
+}
+
+/* While a finger or mouse is down the track follows it directly. */
+.carousel-track.is-dragging {
+  transition: none;
+}
+
+.slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  /* contain, not cover: these are portrait and landscape mixed, and cropping
+     would cut people out of frame. */
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0.85rem 1rem;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(210, 210, 210);
+  cursor: pointer;
+  transition: background 300ms ease;
+}
+
+.dot.is-active {
+  background: rgb(53, 53, 53);
+}
