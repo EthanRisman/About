@@ -74,7 +74,6 @@
             <img class="slide" src="../assets/photos/proposalphoto.jpg" alt="" draggable="false" decoding="async" />
           </div>
         </div>
-        <div class="carousel-dots"></div>
       </div>
     </section>
 
@@ -177,8 +176,8 @@
 
     <script>
       // ---- Photo carousel --------------------------------------------------
-      // Advances every 4s. Any manual interaction (swipe, drag, arrow key,
-      // dot) pauses the rotation for 30s, then it resumes on its own.
+      // Advances every 4s. Any manual interaction (swipe, drag, arrow
+      // key) pauses the rotation for 30s, then it resumes on its own.
       (function () {
         const INTERVAL = 4000;
         const PAUSE = 30000;
@@ -188,7 +187,6 @@
         const carousel = document.querySelector(".carousel");
         if (!carousel) return;
         const track = carousel.querySelector(".carousel-track");
-        const dotsBox = carousel.querySelector(".carousel-dots");
         const slides = Array.from(track.children);
         const count = slides.length;
         if (count < 2) return;
@@ -199,24 +197,9 @@
         let timer = null;
         let resumeTimer = null;
 
-        // --- dots ---
-        const dots = slides.map((_, i) => {
-          const b = document.createElement("button");
-          b.type = "button";
-          b.className = "dot";
-          b.setAttribute("aria-label", "Photo " + (i + 1) + " of " + count);
-          b.addEventListener("click", () => {
-            show(i);
-            hold();
-          });
-          dotsBox.appendChild(b);
-          return b;
-        });
-
         function show(i) {
           index = (i + count) % count;
           track.style.transform = "translateX(" + -index * 100 + "%)";
-          dots.forEach((d, n) => d.classList.toggle("is-active", n === index));
         }
 
         // --- timing ---
