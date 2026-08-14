@@ -1,10 +1,89 @@
 /* SONG PAGE
    Page-specific styles. Loaded after style.css and mediaqueries.css, so this
-   file wins wherever it overlaps. Keep it scoped to #song. */
+   file wins wherever it overlaps. Keep it scoped to #song / .falling. */
 
-#song {
-  height: fit-content;
-  padding-bottom: 4rem;
+body {
+  background-color: white;
+}
+
+/* FALLING CLIPART
+   A fixed, non-interactive layer behind the page content. Each item nests
+   three elements because each one animates its own transform:
+     .fall  -> translateY (the drop)
+     .sway  -> translateX (side-to-side drift)
+     img    -> rotate (tumble)
+   Combining them on a single element would make the animations overwrite
+   each other. */
+
+.falling {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Content sits above the falling layer. */
+nav,
+section,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+.fall {
+  position: absolute;
+  top: 0;
+  display: block;
+  will-change: transform;
+  animation: fall linear infinite;
+}
+
+.sway {
+  display: block;
+  animation: sway ease-in-out infinite alternate;
+}
+
+.falling img {
+  display: block;
+  height: auto;
+  animation: tumble linear infinite;
+}
+
+@keyframes fall {
+  from {
+    transform: translateY(-25vh);
+  }
+  to {
+    transform: translateY(125vh);
+  }
+}
+
+@keyframes sway {
+  from {
+    transform: translateX(-2.5rem);
+  }
+  to {
+    transform: translateX(2.5rem);
+  }
+}
+
+@keyframes tumble {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Users who ask for less motion keep the decoration, frozen in place. */
+@media (prefers-reduced-motion: reduce) {
+  .fall,
+  .sway,
+  .falling img {
+    animation-play-state: paused;
+  }
 }
 
 /* PLAYER */
@@ -15,6 +94,11 @@
   gap: 2rem;
   align-items: center;
   margin-top: 2rem;
+}
+
+#song {
+  height: fit-content;
+  padding-bottom: 4rem;
 }
 
 .track {

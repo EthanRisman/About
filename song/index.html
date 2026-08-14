@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="./song.css" />
   </head>
   <body>
+    <!-- Decorative falling clipart. Populated by the script at the bottom. -->
+    <div class="falling" aria-hidden="true"></div>
+
     <nav id="desktop-nav">
       <div class="logo"><a href="../">Ethan Risman</a></div>
       <div>
@@ -45,7 +48,7 @@
           ============================================================
           EMBED AN MP3 HERE
           ------------------------------------------------------------
-          1. Drop the file into  /assets/  (e.g. assets/song.mp3)
+          1. Drop the file into  /assets/
           2. Point the <source> below at it.
           3. Update the track title / subtitle text above the player.
 
@@ -54,13 +57,13 @@
           ============================================================
         -->
         <div class="track">
-          <h3 class="track-title">Untitled Track</h3>
+          <h3 class="track-title">Nine Months of Caramel Silk</h3>
           <p class="track-meta">Ethan Risman</p>
 
           <audio class="track-player" controls preload="metadata">
-            <source src="../assets/song.mp3" type="audio/mpeg" />
+            <source src="../assets/AlisonSong.mp3" type="audio/mpeg" />
             Your browser does not support the audio element.
-            <a href="../assets/song.mp3">Download the MP3</a> instead.
+            <a href="../assets/AlisonSong.mp3">Download the MP3</a> instead.
           </audio>
 
           <p class="track-fallback" hidden>
@@ -100,6 +103,85 @@
           .querySelectorAll(".track-player source")
           .forEach((src) => src.addEventListener("error", showFallback));
       });
+    </script>
+
+    <script>
+      // ---- Falling clipart -------------------------------------------------
+      // Add or remove filenames here to change what falls. Files live in
+      // /assets/clipart/ and should be PNGs with transparent backgrounds.
+      (function () {
+        const ART = [
+          "flowers.png",
+          "roses.png",
+          "wine.png",
+          "dog1.png",
+          "dog2.png",
+          "baseball.png",
+          "musicnote.png",
+          "musicnote2.png",
+        ];
+        // Items travel from -25vh to 125vh, so only about two thirds are on
+        // screen at any moment. Fewer on narrow screens: phones are both
+        // tighter on space and slower to animate.
+        const COUNT = window.innerWidth < 700 ? 22 : 42;
+
+        const layer = document.querySelector(".falling");
+        if (!layer) return;
+
+        const rand = (min, max) => min + Math.random() * (max - min);
+        const shuffle = (arr) => {
+          for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+          }
+          return arr;
+        };
+
+        // Give each item its own horizontal column and its own slice of the
+        // fall cycle, jittered within it. Plain Math.random() for both clumps
+        // badly at this few items, leaving bare patches and dense streaks.
+        const columns = shuffle(Array.from({ length: COUNT }, (_, i) => i));
+
+        // Repeat the art list to fill COUNT, then shuffle it. Indexing ART by
+        // the loop counter instead would march the clipart down the screen in
+        // a repeating order, since the counter also sets the fall progress.
+        const picks = shuffle(
+          Array.from({ length: COUNT }, (_, i) => ART[i % ART.length])
+        );
+
+        for (let i = 0; i < COUNT; i++) {
+          const fall = document.createElement("span");
+          fall.className = "fall";
+          const duration = rand(11, 24);
+          fall.style.left =
+            (((columns[i] + rand(0.15, 0.85)) / COUNT) * 96).toFixed(2) + "vw";
+          fall.style.animationDuration = duration.toFixed(2) + "s";
+          // Negative delay starts each item mid-flight, so the screen is
+          // already full on load instead of filling from the top.
+          const progress = (i + rand(0.15, 0.85)) / COUNT;
+          fall.style.animationDelay = (-progress * duration).toFixed(2) + "s";
+
+          const sway = document.createElement("span");
+          sway.className = "sway";
+          const swayDur = rand(3, 7);
+          sway.style.animationDuration = swayDur.toFixed(2) + "s";
+          sway.style.animationDelay = (-rand(0, 2 * swayDur)).toFixed(2) + "s";
+
+          const img = document.createElement("img");
+          img.src = "../assets/clipart/" + picks[i];
+          img.alt = "";
+          img.style.width = rand(34, 62).toFixed(1) + "px";
+          img.style.opacity = rand(0.65, 0.95).toFixed(2);
+          const rotDur = rand(9, 20);
+          img.style.animationDuration = rotDur.toFixed(2) + "s";
+          img.style.animationDelay = (-rand(0, rotDur)).toFixed(2) + "s";
+          if (Math.random() < 0.5) img.style.animationDirection = "reverse";
+
+          sway.appendChild(img);
+          fall.appendChild(sway);
+          layer.appendChild(fall);
+        }
+      })();
     </script>
   </body>
 </html>
