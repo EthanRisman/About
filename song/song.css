@@ -24,9 +24,7 @@ body {
 }
 
 /* Content sits above the falling layer. */
-nav,
-section,
-footer {
+section {
   position: relative;
   z-index: 1;
 }
@@ -98,7 +96,10 @@ footer {
 
 #song {
   height: fit-content;
-  padding-bottom: 4rem;
+  /* The site nav used to occupy the top 17vh; without it the heading would
+     sit against the top edge. */
+  padding-top: 12vh;
+  padding-bottom: 6rem;
 }
 
 .track {
@@ -109,17 +110,6 @@ footer {
   border-radius: 2rem;
   border: rgb(163, 163, 163) 0.1rem solid;
   text-align: center;
-}
-
-.track-title {
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-
-.track-meta {
-  color: rgb(85, 85, 85);
-  font-size: clamp(0.8rem, 2vw, 1rem);
-  margin-bottom: 1.25rem;
 }
 
 .track-player {
